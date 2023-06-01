@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">BMI 計算機</h1>
+    <form method="post" action="">
+        <h2>身高：<input id="idHeight" name="height" type="number"/>公分cm</h2>
+        <span id="heighttxt"></span>
+        <p>（1.請輸入十位數整數以上的阿拉伯數字（需整數） 2.單位為公分cm）</p>
+        <h2>體重：<input id="idWeight" name="weight" type="number"/>公斤kg</h2>
+        <span id="weighttxt"></span>
+        <p>（1.請輸入十位數整數以上的阿拉伯數字（需整數） 2.單位為公斤 kg）</p>
+        <input id="submitBMI" type="submit"value="計算BMI" />
+        @{
+            if (this.ViewData["bmiValue"] != null)
+            {
+                <p>BMI：@ViewData["bmiValue"]</p>
+            }
+            }
+    </form>
+</div>
+
+@section Scripts{
+    <script type="text/javascript"></script>
+    <script>
+        document.getElementById("idHeight").addEventListener("change",checkHeight);
+        document.getElementById("idWeight").addEventListener("change",checkWeight);
+
+        function checkHeight(){
+            let personHeight = document.getElementById("idHeight");
+            let personheightcheck = document.getElementById("heighttxt");
+            let strHeight=personHeight.value;
+
+            function isNumeric(val) {
+                return /^[0-9]+$/.test(val);
+            }
+
+            
+            if(strHeight.length <2){
+                personheightcheck.innerHTML="@{<img width='15px' src='~/img/incorrect.png' />}請輸入至少十位數以上阿拉伯數字"
+            }else if(strHeight.length >=2){
+                let checknan =false;
+                console.log(isNumeric(strHeight))
+                if(isNumeric(strHeight)==true){
+                    checknan=true;
+                }else{
+                    checknan=false;
+                }               
+                if(checknan=true){
+                    personheightcheck.innerHTML="@{<img width='15px' src='~/img/correct.png' />}正確"
+                }                    
+                else{
+                    personheightcheck.innerHTML = "@{<img width='15px' src='~/img/incorrect.png' />}請勿輸入非阿拉伯數字"
+                }
+                    
+            }
+            
+        }
+        function checkWeight() {
+            let personWeight = document.getElementById("idWeight");
+            let personweightcheck = document.getElementById("weighttxt");
+            let strweight = personWeight.value;
+
+            function isNumeric(val) {
+                return /^[0-9]+$/.test(val);
+            }
+
+
+            if (strweight.length < 2) {
+                personweightcheck.innerHTML = "@{<img width='15px' src='~/img/incorrect.png' />}請輸入至少十位數以上阿拉伯數字"
+            } else if (strweight.length >= 2) {
+                let checknan = false;
+                console.log(isNumeric(strweight))
+                for (let i = 0; i < strweight.length; i++) {
+                    let word = strweight.charAt(i);
+                    if (isNumeric(word)==true) {
+                        checkch = true;
+                    }
+                    else {
+                        checkch = false;
+                        break;
+                    }
+                }
+                if (checknan = true) {
+                    personweightcheck.innerHTML = "@{<img width='15px' src='~/img/correct.png' />}正確"
+                }
+                else {
+                    personweightcheck.innerHTML = "@{<img width='15px' src='~/img/incorrect.png' />}請勿輸入非阿拉伯數字"
+                }
+
+            }
+
+        }
+    </script>
+    
+}
